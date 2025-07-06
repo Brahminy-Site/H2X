@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brahminy Motors</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: white;
+        }
+
+        .car-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1s ease;
+            background-size: cover;
+            background-position: center;
+        }
+
+            .car-slide.active {
+                opacity: 1;
+                z-index: 10;
+            }
+
+        .gradient-left {
+            background: linear-gradient(to right, rgba(10,10,10,0.85) 35%, transparent);
+        }
+
+        .gradient-right {
+            background: linear-gradient(to left, rgba(10,10,10,0.85) 35%, transparent);
+        }
+
+        .overlay-text {
+            max-width: 500px;
+        }
+
+        .fade-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+            .fade-section.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        .navbar-hidden {
+            transform: translateY(-100%);
+        }
+
+        .fade‑out‑fast {
+            animation: fadeOutIntro 0.3s ease‑out forwards;
+        }
+
+        @keyframes fadeOutIntro {
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+                visibility: hidden;
+            }
+        }
+
+        #showcase:hover .showcase-arrow {
+            opacity: 1;
+        }
+
+        .showcase-arrow {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #intro-screen {
+            position: fixed;
+            inset: 0;
+            background: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 1s ease;
+        }
+
+        .fade-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+            .fade-section.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        #intro-screen img {
+            width: auto;
+            height: auto;
+            max-width: 240px;
+            aspect-ratio: 1506 / 929;
+            object-fit: contain;
+        }
+
+        #intro-screen h1 {
+            opacity: 0;
+            transform: scale(0.95);
+            animation: breathe-in 1s ease-out forwards 0.5s;
+        }
+
+        #intro-screen img {
+            opacity: 0;
+            transform: scale(0.95);
+            animation: breathe-in 1s ease-out forwards 0.2s;
+        }
+
+        @keyframes breathe-in {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        #orderModal.flex #modalContent {
+            opacity: 1;
+            transform: scale(1);
+        }
+        /* Hide scrollbar across all browsers */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none; /* IE/Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        #financialBreakdown {
+            overflow: hidden;
+            transition: all 0.3s ease;
+            max-height: 0;
+            opacity: 0;
+        }
+
+        #financialBreakdown.show {
+                max-height: 500px;
+                opacity: 1;
+        }
+
+        .model-card {
+            cursor: pointer;
+            border: 2px solid transparent;
+            padding: 0.25rem;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+            .model-card:hover {
+                border-color: #38bdf8; /* sky-400 */
+                transform: scale(1.05);
+            }
+
+            .model-card.selected {
+                border-color: #0ea5e9; /* sky-500 */
+                background-color: #1e293b; /* bg-slate-800 */
+            }
+        .scrollbar-hidden::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hidden {
+            -ms-overflow-style: none; /* IE 10+ */
+            scrollbar-width: none; /* Firefox */
+        }
+        .series-box {
+            position: relative;
+            height: auto;
+            width: 100%;
+            max-width: 20rem;
+            aspect-ratio: 1 / 1;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            background-color: #1f2937;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            background-image: url('series.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            transition: all 0.5s ease;
+        }
+
+            .series-box::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(to top, rgba(0, 123, 255, 0.3), transparent 70%);
+                opacity: 0;
+                transition: opacity 0.5s ease;
+                z-index: 2;
+            }
+
+            .series-box:hover::before {
+                opacity: 1;
+            }
+
+            .series-box::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background-size: cover;
+                background-position: center;
+                opacity: 0;
+                transition: opacity 0.5s ease;
+                z-index: 1;
+            }
+
+            /* Assign each series image */
+            .series-box[data-series="fe"]::after {
+                background-image: url('motorsport_FE_car.png');
+            }
+
+            .series-box[data-series="lmp1"]::after {
+                background-image: url('motorsport_LMP1_ToyotaGR.png');
+            }
+
+            .series-box[data-series="egt"]::after {
+                background-image: url('motorsport_GT_racer.png');
+            }
+
+            .series-box[data-series="ewrx"]::after {
+                background-image: url('motorsport_rally_car.png');
+            }
+
+            .series-box[data-series="baja"]::after {
+                background-image: url('motorsport_baja_rally.png');
+            }
+
+            .series-box:hover::after {
+                opacity: 1;
+            }
+
+            /* Logo image (always top layer) */
+            .series-box .series-logo {
+                position: relative;
+                z-index: 3;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                max-width: 100%;
+                max-height: 100%;
+                display: block;
+            }
+
+        #seriesModal {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+            #seriesModal.show {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Intro Screen -->
+    <div id="intro-screen">
+        <img src="your-logo.png" alt="Logo" class="w-20 h-20 mb-4" />
+        <h1 class="text-white text-2xl font-semibold tracking-wider">BRAHMINY MOTORS</h1>
+    </div>
+    <!-- Navbar -->
+    <header class="sticky top-0 z-50 backdrop-blur bg-black/60 p-4 flex justify-between items-center border-b border-white/10 transition-transform duration-300 ease-out">
+        <div class="flex items-center space-x-3">
+            <img src="your-logo.png" class="w-8 h-8 object-contain" alt="Logo" />
+            <h1 class="text-xl font-bold tracking-wide">BRAHMINY MOTORS</h1>
+        </div>
+        <nav class="space-x-6 hidden md:block">
+            <a href="#showcase" class="hover:text-sky-400">Models</a>
+            <a href="#faq" class="hover:text-sky-400">FAQ</a>
+            <a href="#tech" class="hover:text-sky-400">Technology</a>
+            <a href="#about" class="hover:text-sky-400">About Us</a>
+            <a href="#collab" class="hover:text-sky-400">Collab</a>
+            <a href="#motorsport" class="hover:text-sky-400">Motorsports</a>
+            <a href="#contact" class="hover:text-sky-400">Contact</a>
+        </nav>
+        <button onclick="openTestDriveModal()" class="bg-sky-500 hover:bg-sky-600 px-4 py-2 rounded-full">Test Drive</button>
+    </header>
+
+    <!-- Showcase -->
+    <section id="showcase" class="fade-section relative w-full h-screen overflow-hidden">
+        <!-- Navigation Buttons -->
+        <div class="absolute top-1/2 left-4 transform -translate-y-1/2 z-50 showcase-arrow">
+            <button onclick="prevCar()" class="bg-white/20 hover:bg-white/30 p-3 rounded-full">&larr;</button>
+        </div>
+        <div class="absolute top-1/2 right-4 transform -translate-y-1/2 z-50 showcase-arrow">
+            <button onclick="nextCar()" class="bg-white/20 hover:bg-white/30 p-3 rounded-full">&rarr;</button>
+        </div>
+
+        <!-- Intro Header -->
+        <div id="intro-banner"
+             class="absolute top-[2rem] left-10 z-40 text-left max-w-md"
+             data-aos="fade-down">
+            <h2 class="text-white text-2xl md:text-3xl font-extrabold uppercase drop-shadow-lg">
+                Introducing the H2X Line
+            </h2>
+            <p class="text-white text-sm md:text-base font-medium mt-2 drop-shadow-md">
+                Hydro-Electro Power for the Future.
+            </p>
+        </div>
+
+        <!-- Car Slides -->
+        <div id="slider" class="relative w-full h-full">
+            <div id="car-0" class="car-slide active bg-cover bg-center" style="background-image: url('car-h2x.png');">
+                <div class="w-full h-full flex items-center justify-end gradient-right px-10" data-aos="fade-left">
+                    <div class="overlay-text text-right space-y-4">
+                        <h1 class="text-5xl font-extrabold">Brahminy H2X Siklab</h1>
+                        <p class="text-gray-300 text-lg">All the Thrill. None of the Guilt.</p>
+                        <button onclick="scrollToDetails(0)" class="text-sky-400 hover:underline">Learn More &darr;</button>
+                    </div>
+                </div>
+            </div>
+            <div id="car-1" class="car-slide bg-cover bg-center" style="background-image: url('car-lakbay.png');">
+                <div class="w-full h-full flex items-center justify-start gradient-left px-10" data-aos="fade-right">
+                    <div class="overlay-text text-left space-y-4">
+                        <h1 class="text-5xl font-extrabold">Brahminy H2X Lakbay</h1>
+                        <p class="text-gray-300 text-lg">Adventure-ready. Urban-friendly.</p>
+                        <button onclick="scrollToDetails(1)" class="text-sky-400 hover:underline">Learn More &darr;</button>
+                    </div>
+                </div>
+            </div>
+            <div id="car-2" class="car-slide bg-cover bg-center" style="background-image: url('car-bayan.png');">
+                <div class="w-full h-full flex items-center justify-start gradient-left px-10" data-aos="fade-up">
+                    <div class="overlay-text text-left space-y-4">
+                        <h1 class="text-5xl font-extrabold">Brahminy H2X Bayan</h1>
+                        <p class="text-gray-300 text-lg">Accessible. Efficient. Filipino.</p>
+                        <button onclick="scrollToDetails(2)" class="text-sky-400 hover:underline">Learn More &darr;</button>
+                    </div>
+                </div>
+            </div>
+            <div id="car-3" class="car-slide bg-cover bg-center" style="background-image: url('car-ulap.png');">
+                <div class="w-full h-full flex items-center justify-end gradient-right px-10" data-aos="fade-left">
+                    <div class="overlay-text text-right space-y-4">
+                        <h1 class="text-5xl font-extrabold">Brahminy H2X Ulap</h1>
+                        <p class="text-gray-300 text-lg">Conceptual Luxury. Driven by Clouds.</p>
+                        <button onclick="scrollToDetails(3)" class="text-sky-400 hover:underline">Learn More &darr;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- H2X Vehicle Lineup Section -->
+    <section id="details" class="bg-neutral-950 text-center px-6 py-24 space-y-24">
+
+        <!-- Siklab -->
+        <div id="carDetails0" class="fade-section flex flex-col lg:flex-row items-center lg:items-start lg:space-x-10">
+            <img src="car-h2x.png" alt="Siklab" class="w-full lg:w-1/2 rounded-xl shadow-xl mb-6 lg:mb-0" />
+            <div class="text-left lg:w-1/2">
+                <h2 class="text-3xl font-bold mb-2 text-white">H2X Siklab</h2>
+                <p class="text-gray-400 mb-4">
+                    A lightweight hydro-electric coupe built for enthusiasts...
+                </p>
+                <ul class="list-disc list-inside text-gray-300 mb-4">
+                    <li>Range: 1000km</li>
+                    <li>0-100 km/h in 4.8s</li>
+                    <li>Sports-tuned suspension</li>
+                    <li>Toyota Gazoo Racing collaboration</li>
+                </ul>
+                <p class="text-white font-semibold">Starting at ₱2.1M</p>
+                <button onclick="openOrderModal('siklab')" class="mt-4 bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-full">Order Now</button>
+                <button onclick="toggleEngineSound('siklab')" class="mt-2 bg-neutral-800 hover:bg-neutral-700 text-white font-medium px-4 py-2 rounded-full">
+                    Hear the Engine
+                </button>
+            </div>
+        </div>
+
+        <!-- Lakbay -->
+        <div id="carDetails1" class="fade-section flex flex-col lg:flex-row-reverse items-center lg:items-start lg:space-x-10 lg:space-x-reverse">
+            <img src="car-lakbay.png" alt="Lakbay" class="w-full lg:w-1/2 rounded-xl shadow-xl mb-6 lg:mb-0" />
+            <div class="text-left lg:w-1/2">
+                <h2 class="text-3xl font-bold mb-2 text-white">H2X Lakbay</h2>
+                <p class="text-gray-400 mb-4">A rugged, hydro-powered SUV...</p>
+                <ul class="list-disc list-inside text-gray-300 mb-4">
+                    <li>Range: 1500km</li>
+                    <li>All-wheel drive</li>
+                    <li>Smart off-road assist</li>
+                    <li>Spacious, adventure-ready interior</li>
+                </ul>
+                <p class="text-white font-semibold">Starting at ₱1.7M</p>
+                <button onclick="openOrderModal('lakbay')" class="mt-4 bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-full">Order Now</button>
+                <button onclick="toggleEngineSound('lakbay')" class="mt-2 bg-neutral-800 hover:bg-neutral-700 text-white font-medium px-4 py-2 rounded-full">
+                    Hear the Engine
+                </button>
+            </div>
+        </div>
+
+        <!-- Bayan -->
+        <div id="carDetails2" class="fade-section flex flex-col lg:flex-row items-center lg:items-start lg:space-x-10">
+            <img src="car-bayan.png" alt="Bayan" class="w-full lg:w-1/2 rounded-xl shadow-xl mb-6 lg:mb-0" />
+            <div class="text-left lg:w-1/2">
+                <h2 class="text-3xl font-bold mb-2 text-white">H2X Bayan</h2>
+                <p class="text-gray-400 mb-4">For the everyday driver...</p>
+                <ul class="list-disc list-inside text-gray-300 mb-4">
+                    <li>Range: 750km</li>
+                    <li>Compact 4-seater</li>
+                    <li>Smart infotainment system</li>
+                    <li>Eco-friendly, budget-conscious build</li>
+                </ul>
+                <p class="text-white font-semibold">Starting at ₱800K</p>
+                <button onclick="openOrderModal('bayan')" class="mt-4 bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-full">Order Now</button>
+                <button onclick="toggleEngineSound('bayan')" class="mt-2 bg-neutral-800 hover:bg-neutral-700 text-white font-medium px-4 py-2 rounded-full">
+                    Hear the Engine
+                </button>
+            </div>
+        </div>
+
+        <!-- Ulap -->
+        <div id="carDetails3" class="fade-section flex flex-col lg:flex-row-reverse items-center lg:items-start lg:space-x-10 lg:space-x-reverse">
+            <img src="car-ulap.png" alt="Ulap" class="w-full lg:w-1/2 rounded-xl shadow-xl mb-6 lg:mb-0" />
+            <div class="text-left lg:w-1/2">
+                <h2 class="text-3xl font-bold mb-2 text-white">H2X Ulap</h2>
+                <p class="text-gray-400 mb-4">Comfort-first hydro-electric cruising...</p>
+                <ul class="list-disc list-inside text-gray-300 mb-4">
+                    <li>Range: 750km</li>
+                    <li>Float-tuned adaptive suspension</li>
+                    <li>Luxury interior with seamless infotainment</li>
+                    <li>City/countryside crossover build</li>
+                </ul>
+                <p class="text-white font-semibold">Starting at ₱1.0M</p>
+                <button onclick="openOrderModal('ulap')" class="mt-4 bg-sky-600 hover:bg-sky-700 text-white font-semibold px-6 py-3 rounded-full">Order Now</button>
+                <button onclick="toggleEngineSound('ulap')" class="mt-2 bg-neutral-800 hover:bg-neutral-700 text-white font-medium px-4 py-2 rounded-full">
+                    Hear the Engine
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="fade-section py-32 bg-black px-6 text-center">
+        <h2 class="text-4xl font-bold mb-10">FAQs</h2>
+        <div class="max-w-4xl mx-auto text-left space-y-6 text-gray-300">
+            <div>
+                <h3 class="text-xl font-semibold text-white">How is H2X different from an electric car?</h3>
+                <p>H2X isn’t just another silent EV—it’s powered by the H2GO hydrogen engine, made for drivers who want feedback, not silence. You get the sound and feel of performance—when you want it—and a whisper ride when you don’t. Soulful. Sustainable. Selectable.</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold text-white">How does H2GO work?</h3>
+                <p>It uses regular purified water to generate hydrogen on board. Through efficient electrolysis, it powers the car and releases only water vapor. No fuel stations, just water, electricity, and clean performance.</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold text-white">Is it practical to use daily?</h3>
+                <p>Absolutely. Fast to refuel, smooth to drive, and no special infrastructure needed. It fits your routine, whether you're city commuting or weekend exploring—without emissions or hassle.</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold text-white">Does it match the performance of EVs or petrol cars?</h3>
+                <p>It doesn't just match—it redefines. H2X delivers instant torque, tuned response, and that unmistakable growl (if you want it). Real power, not artificial soundtracks, with none of the guilt.</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-semibold text-white">Why is it more affordable than most EVs?</h3>
+                <p>Less battery, more efficiency. The H2GO system avoids oversized packs and focuses on smart, lightweight engineering—so you get performance without paying the EV premium.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology -->
+    <section id="tech" class="fade-section py-32 bg-neutral-900 px-6 text-center">
+        <h2 class="text-4xl font-bold mb-8">The Future of Mobility: Hydrogen-Electric Hybrid</h2>
+        <div class="max-w-4xl mx-auto text-gray-300 text-lg leading-relaxed space-y-6">
+            <p>
+                At the heart of every Brahminy H2X model lies a revolutionary dual-source system: electricity and water.
+                The car uses high-capacity solid-state batteries to perform <strong>onboard electrolysis</strong>, splitting water into
+                hydrogen and oxygen.
+            </p>
+            <p>
+                The extracted <strong>hydrogen gas</strong> feeds a next-gen <strong>fuel cell stack</strong>, producing clean energy that powers
+                the motor with zero emissions. The process is self-contained and optimized by our proprietary <strong>H2GO Tech™</strong>
+                control system.
+            </p>
+            <p>
+                Waste heat is recycled to warm the cabin or improve battery efficiency. This system delivers both
+                <strong>performance</strong> and <strong>sustainability</strong>—without compromise.
+            </p>
+        </div>
+        <div class="mt-12 max-w-5xl mx-auto">
+            <img src="hydrogen-xray-placeholder.png" alt="Hydrogen system x-ray" class="rounded-xl shadow-xl w-full max-h-[500px] object-cover" />
+            <p class="mt-4 text-sm text-gray-500">Illustration of the H2GO hydro-electric drivetrain integrated into a vehicle chassis.</p>
+        </div>
+    </section>
+    <!-- About Us -->
+    <section id="about" class="fade-section py-32 bg-neutral-950 px-6 text-center">
+        <h2 class="text-4xl font-bold mb-8">About Brahminy Motors</h2>
+        <div class="max-w-4xl mx-auto text-lg leading-relaxed text-gray-300 space-y-6">
+            <p>
+                Brahminy Motors was born from a simple but powerful belief: that cars shouldn’t force us to choose between emotion, sustainability, or affordability. What began in the early 2010s as a quiet rebellion against gas-guzzling pollution has evolved into a bold movement for clean, soulful driving.
+            </p>
+            <p>
+                In the early days, our engineers built concept vehicles aimed at redefining efficiency — but they never made it to the public. A lack of trust and investment held us back. That changed with new leadership and a renewed vision. We walked away from lifeless EV templates and greenwashed gas solutions, and turned instead to the most abundant resource on Earth: <strong>water</strong>.
+            </p>
+            <p>
+                That vision became the <strong>H2X Line</strong> — a family of hydrogen-electric vehicles powered by our proprietary H2GO system. Whether you're navigating the city, hitting the open road, or chasing performance, there's an H2X model built for you.
+            </p>
+            <p>
+                Every Brahminy vehicle is proudly <strong>designed and assembled in the Philippines</strong>, fusing advanced global technologies with Filipino resilience and ingenuity. We're not just building cleaner cars — we're building a cleaner future.
+            </p>
+            <p>
+                With global pioneers like <strong>Toyota</strong> at our side, we're leading the charge to make hydrogen mobility not only real, but remarkable — built for Southeast Asia, and ready for the world.
+            </p>
+            <p class="text-white font-semibold">Made in the Philippines. Driven by purpose. Built for the world.</p>
+        </div>
+    </section>
+    <!-- Collaboration -->
+    <section id="collab" class="fade-section py-32 bg-black px-6 text-center">
+        <h2 class="text-4xl font-bold mb-6">BRAHMINY × TOYOTA</h2>
+        <p class="text-gray-400 max-w-3xl mx-auto mb-12 text-lg">
+            A groundbreaking partnership merging Brahminy innovation with Toyota’s global excellence.
+        </p>
+
+        <div class="relative max-w-5xl mx-auto mb-12">
+            <img src="collab-cars.png" alt="Collaboration cars" class="w-full rounded-xl shadow-2xl" />
+        </div>
+
+        <div class="max-w-4xl mx-auto text-center text-gray-300 space-y-6">
+            <h3 class="text-2xl font-semibold">Brahminy Motors has partnered with Japanese automotive giant Toyota to pioneer a new era of clean, high-performance mobility.</h3>
+            <p class="text-lg">
+                This collaboration merges Brahminy’s bold hydrogen-electric innovations with Toyota’s renowned engineering heritage. Together, we’re co-developing next-generation drivetrains that deliver zero-emissions performance without compromising on power, range, or driving thrill — engineered for Southeast Asia, and designed for a global impact.
+            </p>
+        </div>
+
+        <div class="mt-10 text-center">
+            <a href="https://toyota.com/GR-H" target="_blank" class="text-sky-400 hover:underline text-lg">
+                Learn more about the Toyota GR-H collaboration →
+            </a>
+        </div>
+    </section>
+
+    <!-- Motorsports -->
+    <section id="motorsport"> </section>
+    <section class="fade-section motorsport-division w-full bg-black py-16">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <!-- Left Side: Image Carousel with Gradient -->
+            <div class="relative overflow-hidden rounded-2xl shadow-lg">
+                <!-- Image Carousel (Simple fade cycling) -->
+                <div class="relative h-[20rem] md:h-[28rem] lg:h-[32rem]">
+                    <img src="motorsport_FE_car.png" alt="Formula E – Urban EV race testing ground" class="absolute inset-0 w-full h-full object-cover opacity-0 image-carousel">
+                    <img src="motorsport_LMP1_ToyotaGR.png" alt="LMP1 – Long-range hybrid testing with Toyota GR" class="absolute inset-0 w-full h-full object-cover opacity-0 image-carousel">
+                    <img src="motorsport_GT_racer.png" alt="GT Racing – Real-world high-performance validation" class="absolute inset-0 w-full h-full object-cover opacity-0 image-carousel">
+                    <img src="motorsport_rally_car.png" alt="eRally – Tested through the harshest of elements" class="absolute inset-0 w-full h-full object-cover opacity-0 image-carousel">
+                    <img src="motorsport_baja_rally.png" alt="Baja Rally – Survival through California''s toughest" class="absolute inset-0 w-full h-full object-cover opacity-0 image-carousel">
+                </div>
+            </div>
+
+            <!-- Right Side: Text Content -->
+            <div class="text-white space-y-6">
+                <h2 class="text-3xl md:text-4xl font-bold">Motorsport Division</h2>
+                <p class="text-lg leading-relaxed">
+                    At <strong>Brahminy Motors</strong>, motorsports isn’t just spectacle — it’s science in motion. Every lap, jump, and terrain shift becomes a data point. A real-world lab. And from that crucible, we forge the next generation of zero-emission performance. Powered by our <strong>H2GO Device</strong> and advanced <strong>hydrogen-ICE hybrid systems</strong>, our machines are more than racers — they are <strong>prototypes with purpose</strong>. Each racing series we enter serves a specific role in testing and evolving our technology.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tailwind CSS Animation -->
+    <style>
+        .image-carousel {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: fade-carousel 25s linear infinite;
+            transition: opacity 1s ease-in-out;
+            opacity: 0;
+        }
+
+            .image-carousel:nth-of-type(1) {
+                animation-delay: 0s;
+                z-index: 5;
+            }
+
+            .image-carousel:nth-of-type(2) {
+                animation-delay: 5s;
+                z-index: 4;
+            }
+
+            .image-carousel:nth-of-type(3) {
+                animation-delay: 10s;
+                z-index: 3;
+            }
+
+            .image-carousel:nth-of-type(4) {
+                animation-delay: 15s;
+                z-index: 2;
+            }
+
+            .image-carousel:nth-of-type(5) {
+                animation-delay: 20s;
+                z-index: 1;
+            }
+
+        @keyframes fade-carousel {
+            0% {
+                opacity: 0;
+            }
+
+            8% {
+                opacity: 1;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            28% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+
+    <!-- Series -->
+
+    <section id="motorsport-series" class="fade-section bg-black py-16 text-white px-4 sm:px-6">
+        <div class="max-w-7xl mx-auto px-6 text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold mb-2">Tested at the Limit</h2>
+            <p class="text-lg text-gray-400">Every circuit, every surface — a battlefield for innovation.</p>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 place-items-center">
+            <!-- Row 1: LMP1 at col 1 -->
+            <div class="fade-section series-box group md:col-start-1 md:col-span-1" data-series="lmp1">
+                <div class="w-full h-full flex items-center justify-center">
+                    <img src="LMP1.png" alt="LMP1" class="series-logo transition group-hover:opacity-0" />
+                </div>
+                <img src="motorsport_LMP1_ToyotaGR.png" alt="LMP1 Car" class="hover-img absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition duration-500" />
+            </div>
+
+            <!-- Row 1: Formula E at col 3 -->
+            <div class="fade-section series-box group md:col-start-3 md:col-span-1" data-series="fe">
+                <div class="w-full h-full flex items-center justify-center">
+                    <img src="FE.png" alt="Formula E" class="series-logo transition group-hover:opacity-0" />
+                </div>
+                <img src="motorsport_FE_car.png" alt="Formula E Car" class="hover-img absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition duration-500" />
+            </div>
+
+            <!-- Row 1: eGT at col 5 -->
+            <div class="fade-section series-box group md:col-start-5 md:col-span-1" data-series="egt">
+                <div class="w-full h-full flex items-center justify-center">
+                    <img src="EGT.png" alt="eGT" class="series-logo transition group-hover:opacity-0" />
+                </div>
+                <img src="motorsport_GT_racer.png" alt="GT Car" class="hover-img absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition duration-500" />
+            </div>
+
+            <!-- Row 2: eWRX at col 2 -->
+            <div class="fade-section series-box group md:col-start-2 md:col-span-1" data-series="ewrx">
+                <div class="w-full h-full flex items-center justify-center">
+                    <img src="EWRX.png" alt="eWRX" class="series-logo transition group-hover:opacity-0" />
+                </div>
+                <img src="motorsport_rally_car.png" alt="eWRX Car" class="hover-img absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition duration-500" />
+            </div>
+
+            <!-- Row 2: Baja at col 4 -->
+            <div class="fade-section series-box group md:col-start-4 md:col-span-1" data-series="baja">
+                <div class="w-full h-full flex items-center justify-center">
+                    <img src="BAJA.png" alt="Baja Rally" class="series-logo transition group-hover:opacity-0" />
+                </div>
+                <img src="motorsport_baja_rally.png" alt="Baja Car" class="hover-img absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition duration-500" />
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="fade-section py-32 bg-neutral-950 px-6 text-center">
+        <h2 class="text-4xl font-bold mb-8">Get in Touch</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto mb-12">
+            Questions about H2X? Want to partner or invest? We’d love to hear from you.
+        </p>
+        <form class="max-w-xl mx-auto space-y-4">
+            <input type="text" placeholder="Your Name" class="w-full px-4 py-3 rounded-lg bg-neutral-800 text-white placeholder-gray-500" />
+            <input type="email" placeholder="Your Email" class="w-full px-4 py-3 rounded-lg bg-neutral-800 text-white placeholder-gray-500" />
+            <textarea placeholder="Your Message" class="w-full px-4 py-3 rounded-lg bg-neutral-800 text-white placeholder-gray-500" rows="5"></textarea>
+            <button class="bg-sky-500 hover:bg-sky-600 px-6 py-3 rounded-full text-white font-semibold">Send Message</button>
+        </form>
+        <p class="mt-10 text-gray-600 text-sm">Or email us at <a href="mailto:brahminymotors@gmail.com" class="underline">brahminymotors@gmail.com</a></p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="fade-section bg-black text-center text-sm text-gray-500 py-8">
+        <p>© 2025 Brahminy Motors. All rights reserved.</p>
+        <div class="mt-2 space-x-4">
+            <a href="#privacy" class="hover:underline">Privacy Policy</a>
+            <a href="#terms" class="hover:underline">Terms of Use</a>
+        </div>
+        <p class="mt-2 text-xs text-gray-600">Designed in the Philippines • Powered by Ingenuity & Hope</p>
+    </footer>
+
+    <!-- Cabinet -->
+    <div id="orderModal" class="fade-section fixed inset-0 z-[2000] bg-black/80 hidden justify-center items-center">
+        <div id="modalContent" class="bg-neutral-900 text-white rounded-2xl w-full max-w-sm sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative opacity-0 scale-95 transition-all duration-300 ease-out no-scrollbar">
+            <button onclick="closeOrderModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">&times;</button>
+            <h2 id="modalTitle" class="text-2xl font-bold mb-4">Order H2X Model</h2>
+
+            <!-- Trim Selector -->
+            <div class="mb-4">
+                <label class="block text-sm mb-1 text-gray-400">Choose Trim</label>
+                <select id="trimSelect" class="w-full px-3 py-2 rounded bg-neutral-800 text-white"></select>
+            </div>
+
+            <!-- Main Car Image -->
+            <div class="mb-6">
+                <img id="modalImage1" src="" class="rounded-xl shadow-lg w-full h-auto object-cover" />
+            </div>
+
+            <!-- Specs and Description -->
+            <div id="modalSpecs" class="mb-6 text-gray-300 text-sm leading-relaxed space-y-2"></div>
+
+            <!-- Installment Plan Selector -->
+            <div class="mb-6">
+                <label class="block text-sm mb-2 text-gray-400">Installment Plan</label>
+                <select id="installmentPlan" class="w-full px-3 py-2 rounded bg-neutral-800 text-white">
+                    <option value="full">Full Payment</option>
+                    <option value="12">12 months (0% interest)</option>
+                    <option value="24">24 months (low interest)</option>
+                    <option value="36">36 months (flexible)</option>
+                </select>
+            </div>
+
+            <!-- Pricing Details -->
+            <div class="bg-neutral-800 p-4 rounded mb-6 space-y-2">
+                <p class="text-gray-400 text-sm">Base Price:</p>
+                <p id="modalPrice" class="text-lg font-bold text-white">₱0.00</p>
+
+                <div id="installmentBreakdown" class="text-sm text-gray-400 space-y-1 hidden">
+                    <p><strong>Monthly Payment:</strong> <span id="monthlyAmount">—</span></p>
+                    <p><strong>Total Paid Over Term:</strong> <span id="totalAmount">—</span></p>
+                    <p class="flex items-start gap-1">
+                        <strong>Total Interest Paid:</strong>
+                        <span id="interestAmount">—</span>
+                        <span class="relative group">
+                            <span class="text-xs text-gray-400 cursor-pointer">ⓘ</span>
+                            <span class="absolute left-4 bottom-full mb-1 w-64 p-2 bg-neutral-800 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50">
+                                Installment plans over 12 months include interest charges to reflect fair lending terms and long-term risk. We aim to keep your financing honest and accessible.
+                            </span>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div id="dealershipBreakdown" class="bg-neutral-800 mt-6 p-4 rounded space-y-3 text-sm text-gray-300">
+                <div>
+                    <label for="downSlider" class="block text-sm text-gray-400 mb-1">Downpayment (% of base price)</label>
+                    <input id="downSlider" type="range" min="0" max="50" value="20" step="5" class="w-full">
+                    <p class="text-xs text-gray-400 mt-1"><span id="downAmount">0</span> (<span id="downPercentText">20%</span>)</p>
+                </div>
+
+                <div class="space-y-1">
+                    <p>Loan Amount: <span class="font-semibold text-white" id="loanAmount">₱0</span></p>
+                    <p>Estimated Interest: <span id="legalInterest">₱0</span></p>
+                    <p>Estimated Fees: <span id="legalFees">₱17,000</span></p>
+                    <p>Estimated Insurance (per year): <span id="legalInsurance">₱45,000</span></p>
+                </div>
+
+                <hr class="border-gray-700">
+
+                <div class="font-semibold">
+                    <p class="text-white">Estimated Total Cost to Own: <span id="ownershipTotal" class="text-sky-400">₱0</span></p>
+                </div>
+
+                <p class="text-xs text-gray-500">* Estimated insurance is calculated for 3 years. All amounts are approximate and subject to lender and regional regulations.</p>
+            </div>
+
+            <div class="mt-4">
+                <button onclick="toggleBreakdown()" class="text-sm text-sky-400 hover:underline flex items-center gap-1">
+                    <span id="breakdownToggleLabel">Show Included Value Breakdown</span>
+                    <svg id="breakdownToggleIcon" class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+
+                <!-- Collapsible Section -->
+                <div id="financialBreakdownWrapper" class="overflow-hidden transition-all duration-300" style="max-height: 0; opacity: 0;">
+                    <div class="mt-2 bg-neutral-800 p-4 rounded text-sm text-gray-300">
+                        <h3 class="text-white text-lg font-semibold mb-2">Included Value Breakdown</h3>
+                        <ul id="featuresList" class="space-y-1"></ul>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm mb-2 text-gray-400">Choose Dealer</label>
+                    <select id="dealerSelect" class="w-full px-3 py-2 rounded bg-neutral-800 text-white">
+                        <option value="">Select your preferred dealership</option>
+                        <option>Quezon City - Brahminy Main Showroom</option>
+                        <option>Taguig - Uptown Autohaus</option>
+                        <option>Cebu - South District Hub</option>
+                        <option>Davao - Brahminy Premier</option>
+                        <option>Batangas - Lipa Dealership Center</option>
+                        <option>La Union - Coastal Regional Dealer</option>
+                        <option>Baguio - Highland AutoMall</option>
+                        <option>Zamboanga - Mindanao North Point</option>
+                    </select>
+                </div>
+
+                <!-- Action Button -->
+                <button class="w-full bg-sky-600 hover:bg-sky-700 px-6 py-3 rounded-full font-semibold">Proceed to Customization</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simplified Test Drive Modal with Hero Image Model Chooser -->
+    <div id="testDriveModal" class="fade-section fixed inset-0 z-[2000] bg-black/80 hidden justify-center items-center">
+        <div class="bg-neutral-900 text-white rounded-2xl w-full max-w-sm sm:max-w-md md:max-w-3xl max-h-[90vh] overflow-y-auto p-10 relative opacity-0 scale-95 transition-all duration-300 ease-out scrollbar-hidden">
+            <button onclick="closeTestDriveModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+            <h2 class="text-3xl font-bold mb-6">Book a Test Drive</h2>
+
+            <form onsubmit="submitTestDrive(event)" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input type="text" placeholder="Full Name" required class="w-full px-4 py-3 rounded bg-neutral-800 text-white placeholder-gray-500" />
+                    <input type="tel" placeholder="Mobile Number" required class="w-full px-4 py-3 rounded bg-neutral-800 text-white placeholder-gray-500" />
+                    <input type="email" placeholder="Email Address" required class="w-full px-4 py-3 rounded bg-neutral-800 text-white placeholder-gray-500" />
+                    <input type="text" placeholder="Your City / Location" required class="w-full px-4 py-3 rounded bg-neutral-800 text-white placeholder-gray-500" />
+                </div>
+
+                <div class="space-y-2 text-center">
+                    <label class="text-sm text-gray-400 block mb-1">Choose Model</label>
+                    <div class="relative">
+                        <div class="flex justify-center items-center mb-2">
+                            <button type="button" onclick="prevModel()" class="text-white px-3 py-1 rounded-full text-2xl">&#8592;</button>
+                            <h3 id="modelName" class="mx-4 text-xl font-semibold"></h3>
+                            <button type="button" onclick="nextModel()" class="text-white px-3 py-1 rounded-full text-2xl">&#8594;</button>
+                        </div>
+                        <div class="flex justify-center">
+                            <img id="modelHeroImage" src="" alt="Selected Model" class="rounded-2xl w-full max-w-2xl transition-opacity duration-500 ease-in-out opacity-0" onload="this.style.opacity='1'" />
+                        </div>
+                        <input type="hidden" id="selectedModel" name="selectedModel" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="date" required class="w-full px-4 py-3 rounded bg-neutral-800 text-white" />
+                    <input type="time" required class="w-full px-4 py-3 rounded bg-neutral-800 text-white" />
+                </div>
+
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Preferred Dealer</label>
+                    <select required class="w-full px-4 py-3 rounded bg-neutral-800 text-white">
+                        <option value="">Choose a dealer</option>
+                        <option>Quezon City - Brahminy Main Showroom</option>
+                        <option>Taguig - Uptown Autohaus</option>
+                        <option>Cebu - South District Hub</option>
+                        <option>Davao - Brahminy Premier</option>
+                        <option>Batangas - Lipa Dealership Center</option>
+                        <option>La Union - Coastal Regional Dealer</option>
+                        <option>Baguio - Highland AutoMall</option>
+                        <option>Zamboanga - Mindanao North Point</option>
+                    </select>
+                </div>
+
+                <textarea placeholder="Additional Notes (optional)" rows="3" class="w-full px-4 py-3 rounded bg-neutral-800 text-white placeholder-gray-500"></textarea>
+                <button type="submit" class="w-full bg-sky-600 hover:bg-sky-700 px-6 py-3 rounded-full font-semibold">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-neutral-900 text-white px-6 py-4 rounded-xl shadow-lg opacity-0 pointer-events-none transition-opacity duration-500 ease-out z-[9999]">
+        <p id="toastMessage" class="text-sm text-gray-300"></p>
+    </div>
+
+    <!-- Series Modal -->
+
+    <div id="seriesModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-start justify-center p-8 pt-16 max-h-screen">
+        <div class="bg-neutral-900 text-white rounded-xl max-w-3xl w-full h-full max-h-[90vh] flex flex-col overflow-hidden relative">
+
+            <!-- Sticky Header with Close Button + Title -->
+            <div class="flex justify-between items-center p-4 border-b border-white/10 bg-neutral-900 z-10">
+                <h2 id="seriesModalTitle" class="text-xl font-semibold text-white"></h2>
+                <button onclick="closeModal()" class="text-white text-2xl hover:text-accent">×</button>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div id="seriesModalContent" class="flex-1 overflow-y-auto scrollbar-hidden p-6 space-y-4">
+                <!-- JS-injected series content -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        let current = 0;
+        const total = 4;
+        let autoSlideInterval;
+
+        function showSlide(index) {
+            for (let i = 0; i < total; i++) {
+                document.getElementById(`car-${i}`).classList.remove('active');
+            }
+            document.getElementById(`car-${index}`).classList.add('active');
+            current = index;
+            resetAutoSlide();
+        }
+
+        function nextCar() {
+            current = (current + 1) % total;
+            showSlide(current);
+        }
+
+        function prevCar() {
+            current = (current - 1 + total) % total;
+            showSlide(current);
+        }
+
+        function scrollToDetails(index) {
+            const el = document.getElementById(`carDetails${index}`);
+            if (el) {
+                const yOffset = -80;
+                const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(() => {
+                nextCar();
+            }, 6000);
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const intro = document.getElementById('intro-screen');
+                intro.style.opacity = '0';
+                setTimeout(() => intro.remove(), 1000);
+            }, 1800);
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            resetAutoSlide();
+
+            const fadeSections = document.querySelectorAll('.fade-section');
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    } else {
+                        entry.target.classList.remove('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeSections.forEach(section => {
+                fadeObserver.observe(section);
+            });
+        });
+
+        const navbar = document.querySelector('header');
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > lastScrollY && window.scrollY > 50) {
+                navbar.classList.add('navbar-hidden');
+            } else {
+                navbar.classList.remove('navbar-hidden');
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // ✅ Modal Logic
+        // ✅ Modal Logic
+        const carData = {
+            siklab: {
+                title: "Order H2X Siklab",
+                trims: [
+                    {
+                        name: "Siklab",
+                        description: "Pure Hydro-electric performance coupe",
+                        price: 2100000,
+                        image: "car-h2x.png",
+                        range: "1000km",
+                        accel: "4.8",
+                        drive: "RWD",
+                        specs: {
+                            suspension: "Race-tuned adaptive",
+                            transmission: "Seven-speed Sequential Stick gearbox",
+                            tires: "Michelin Pilot Sport 4S"
+                        },
+                        features: [
+                            "0–100 km/h in 4.8s",
+                            "Carbon-ceramic brakes",
+                            "1,200kg curb weight",
+                            "Track control system with drift mode",
+                            "Nürburgring Lap: 8:43"
+                        ],
+                        includedFeatures: [
+                            { name: "Base Car", cost: 1900000 },
+                            { name: "Paint Job", cost: 25000 },
+                            { name: "Race Suspension", cost: 45000 },
+                            { name: "Performance Tires", cost: 35000 },
+                            { name: "3-Year Maintenance Plan", cost: 0 }
+                        ]
+                    },
+                    {
+                        name: "Siklab Premier",
+                        description: "Upgraded interior, adaptive suspension",
+                        price: 2400000,
+                        image: "car-h2x-P.png",
+                        range: "1000km",
+                        accel: "4.5s",
+                        drive: "RWD",
+                        specs: {
+                            suspension: "Active suspension with comfort/sport modes",
+                            transmission: "Dual Clutch Paddle Shifter",
+                            tires: "Michelin Pilot Sport 4S"
+                        },
+                        features: [
+                            "Heated Alcantara sport seats",
+                            "Dual 12-inch touchscreen displays",
+                            "Surround-view camera",
+                            "Upgraded audio system"
+                        ],
+                        includedFeatures: [
+                            { name: "Base Car", cost: 1900000 },
+                            { name: "Paint Job", cost: 25000 },
+                            { name: "Luxury Interior Upgrade", cost: 60000 },
+                            { name: "Comfort+ Active Suspension", cost: 55000 },
+                            { name: "Touchscreen Upgrade", cost: 40000 },
+                            { name: "3-Year Maintenance Plan", cost: 0 }
+                        ]
+                    },
+                    {
+                        name: "Siklab Apex-R",
+                        description: "Track-tuned by Brahminy Apex Racing",
+                        price: 3200000,
+                        image: "car-h2x-AR.png",
+                        range: "1000km",
+                        accel: "3.7s",
+                        drive: "RWD",
+                        specs: {
+                            suspension: "Track-honed ultra adaptive",
+                            transmission: "7-speed paddle-shifter",
+                            tires: "Pirelli P Zero Trofeo R"
+                        },
+                        features: [
+                            "0–100 km/h in 3.7s",
+                            "Active aero fins + diffuser + upgraded chassis & suspension",
+                            "Nürburgring Lap: 7:41",
+                            "Co-developed with B.A.R at Pampanga Speedway"
+                        ],
+                        includedFeatures: [
+                            { name: "Base Car", cost: 1900000 },
+                            { name: "Paint Job", cost: 25000 },
+                            { name: "Apex R Bodykit", cost: 85000 },
+                            { name: "Track Aero + Diffuser", cost: 60000 },
+                            { name: "Ultra Suspension + Tires", cost: 90000 },
+                            { name: "B.A.R Co-dev Tuning", cost: 70000 },
+                            { name: "3-Year Maintenance Plan", cost: 0 }
+                        ]
+                    }
+                ]
+            },
+            lakbay: {
+                title: "Order H2X Lakbay",
+                trims: [
+                    {
+                        name: "Lakbay",
+                        description: "Rugged AWD SUV",
+                        price: 1700000,
+                        image: "car-lakbay.png",
+                        range: "1500km",
+                        accel: "7.0s",
+                        drive: "AWD",
+                        specs: {
+                            suspension: "Off-road tuned adaptive suspension",
+                            transmission: "Multi-mode single-speed gearbox",
+                            tires: "Goodyear All-Terrain EV"
+                        },
+                        features: [
+                            "Hill descent control",
+                            "Roof rack with modular attachments",
+                            "360° terrain camera system"
+                        ],
+                        includedFeatures: [
+                            { name: "Base Car", cost: 1550000 },
+                            { name: "Paint Job", cost: 25000 },
+                            { name: "Skid Plate Armor", cost: 40000 },
+                            { name: "Roof Rails + Rack", cost: 20000 },
+                            { name: "3-Year Maintenance Plan", cost: 0 }
+                        ]
+                    },
+                    {
+                        name: "Lakbay Premier",
+                        description: "Luxury add-ons, terrain assist",
+                        price: 2000000,
+                        image: "car-lakbay-P.png",
+                        range: "1500km",
+                        accel: "6.5s",
+                        drive: "AWD",
+                        specs: {
+                            suspension: "Adaptive comfort suspension",
+                            transmission: "Dual-mode electronic gearbox",
+                            tires: "Michelin CrossClimate EV"
+                        },
+                        features: [
+                            "Panoramic sunroof",
+                            "Leather-trimmed ventilated seats",
+                            "Terrain adaptive cruise control"
+                        ],
+                        includedFeatures: [
+                            { name: "Base Car", cost: 1550000 },
+                            { name: "Paint Job", cost: 25000 },
+                            { name: "Sunroof", cost: 25000 },
+                            { name: "Leather Ventilated Seats", cost: 35000 },
+                            { name: "Adaptive Cruise Assist", cost: 28000 },
+                            { name: "3-Year Maintenance Plan", cost: 0 }
+                        ]
+                    },
+                    {
+                        name: "Lakbay Apex-X",
+                        description: "Rally-tuned suspension, B.A.R upgrades",
+                        price: 2400000,
+                        image: "car-lakbay-AR.png",
+                        range: "1500km",
+                        accel: "6.0s",
+                        drive: "AWD",
+                        specs: {
+                            suspension: "B.A.R rally-tuned dampers",
+                            transmission: "8-speed sequential torque-vectoring system",
+                            tires: "BFGoodrich Trail-Terrain T/A"
+                        },
+                        features: [
+                            "B.A.R co-developed drivetrain",
+                            "Reinforced underbody armor",
+                            "Performance rally mode"
+                        ],
+                        includedFeatures: [
+                            { name: "Base Car", cost: 1550000 },
+                            { name: "Paint Job", cost: 25000 },
+                            { name: "Rally Dampers", cost: 60000 },
+                            { name: "Skid Plate Armor", cost: 40000 },
+                            { name: "B.A.R Co-dev Tuning", cost: 70000 },
+                            { name: "3-Year Maintenance Plan", cost: 0 }
+                        ]
+                    }
+                ]
+            },
+            bayan: {
+                title: "Order H2X Bayan",
+                trims: [
+                    {
+                        name: "Bayan",
+                        description: "Practical city car",
+                        price: 800000,
+                        image: "car-bayan.png",
+                        range: "750km",
+                        accel: "9.0s",
+                        drive: "FWD",
+                        specs: {
+                            suspension: "Standard front strut / torsion beam rear",
+                            transmission: "Single-speed automatic",
+                            tires: "EcoContact EV"
+                        },
+                        features: [
+                            "Compact 4-door layout",
+                            "Rear parking sensors",
+                            "Smartphone integration (Apple/Android)"
+                        ],
+                        includedFeatures: [
+                            { name: "Base Car", cost: 720000 },
+                            { name: "Paint Job", cost: 25000 },
+                            { name: "Rear Camera", cost: 15000 },
+                            { name: "3-Year Maintenance Plan", cost: 0 }
+                        ]
+                    },
+                    {
+                        name: "Bayan Plus",
+                        description: "Smoother suspension, better infotainment",
+                        price: 950000,
+                        image: "car-bayan-P.png",
+                        range: "750km",
+                        accel: "8.5s",
+                        drive: "FWD",
+                        specs: {
+                            suspension: "Enhanced comfort dampers",
+                            transmission: "Eco-tuned single-speed",
+                            tires: "Michelin e.Primacy"
+                        },
+                        features: [
+                            "8-inch infotainment with voice control",
+                            "Keyless entry and push-start",
+                            "Rear camera with guide lines"
+                        ],
+                        includedFeatures: [
+                            { name: "Base Car", cost: 720000 },
+                            { name: "Paint Job", cost: 25000 },
+                            { name: "8-inch Infotainment", cost: 20000 },
+                            { name: "Rear Camera", cost: 15000 },
+                            { name: "3-Year Maintenance Plan", cost: 0 }
+                        ]
+                    },
+                    {
+                        name: "Bayan Sport",
+                        description: "Race Suspension, Aero Parts",
+                        price: 1100000,
+                        image: "car-bayan-AR.png",
+                        range: "750km",
+                        accel: "7.2s",
+                        drive: "FWD",
+                        specs: {
+                            suspension: "Lowered sport suspension",
+                            transmission: "Regen-enabled paddle shift",
+                            tires: "Pilot Sport EV"
+                        },
+                        features: [
+                            "Front splitter, rear spoiler",
+                            "Red brake calipers",
+                            "Sport display cluster"
+                        ],
+                        includedFeatures: [
+                            { name: "Base Car", cost: 720000 },
+                            { name: "Paint Job", cost: 25000 },
+                            { name: "Sport Suspension", cost: 30000 },
+                            { name: "Spoiler", cost: 20000 },
+                            { name: "Carbon Hood", cost: 40000 },
+                            { name: "3-Year Maintenance Plan", cost: 0 }
+                        ]
+                    }
+                ]
+            },
+            ulap: {
+                title: "Order H2X Ulap",
+                trims: [
+                    {
+                        name: "Ulap",
+                        description: "Comfort crossover",
+                        price: 1000000,
+                        image: "car-ulap.png",
+                        range: "750km",
+                        accel: "8.2s",
+                        drive: "AWD",
+                        specs: {
+                            suspension: "Comfort tuned suspension",
+                            transmission: "Single-speed CVT",
+                            tires: "Bridgestone Turanza EV"
+                        },
+                        features: [
+                            "Wide interior space",
+                            "Wireless phone charger",
+                            "Pre-collision assist"
+                        ],
+                        includedFeatures: [
+                            { name: "Base Car", cost: 900000 },
+                            { name: "Paint Job", cost: 25000 },
+                            { name: "AI Assistant", cost: 8000 },
+                            { name: "Pre-collision Assist", cost: 10000 },
+                            { name: "3-Year Maintenance Plan", cost: 0 }
+                        ]
+                    },
+                    {
+                        name: "Ulap Premier",
+                        description: "Luxury seating, AI comfort",
+                        price: 1300000,
+                        image: "car-ulap-P.png",
+                        range: "750km",
+                        accel: "7.8s",
+                        drive: "AWD",
+                        specs: {
+                            suspension: "Dual-mode AI suspension",
+                            transmission: "Single-speed CVT",
+                            tires: "Continental PremiumContact EV"
+                        },
+                        features: [
+                            "AI-adjusted cabin temperature",
+                            "Memory foam seats",
+                            "Rear recline function"
+                        ],
+                        includedFeatures: [
+                            { name: "Base Car", cost: 900000 },
+                            { name: "Paint Job", cost: 25000 },
+                            { name: "Massage Seats", cost: 35000 },
+                            { name: "AI Comfort System", cost: 25000 },
+                            { name: "Rear Recliner Function", cost: 18000 },
+                            { name: "3-Year Maintenance Plan", cost: 0 }
+                        ]
+                    },
+                    {
+                        name: "Ulap Apex-Luxe",
+                        description: "B.A.R-tuned comfort, Apex dampers",
+                        price: 1600000,
+                        image: "car-ulap-AR.png",
+                        range: "750km",
+                        accel: "7.2s",
+                        drive: "AWD",
+                        specs: {
+                            suspension: "Apex Adaptive Dampers tuned by B.A.R",
+                            transmission: "Single-speed CVT",
+                            tires: "Pirelli Cinturato P7"
+                        },
+                        features: [
+                            "Silence-focused NVH insulation",
+                            "Massage front seats",
+                            "Pampanga Tuned Drive Mode"
+                        ],
+                        includedFeatures: [
+                            { name: "Base Car", cost: 900000 },
+                            { name: "Paint Job", cost: 25000 },
+                            { name: "Massage Seats", cost: 35000 },
+                            { name: "Apex Dampers by B.A.R", cost: 55000 },
+                            { name: "NVH Insulation", cost: 18000 },
+                            { name: "3-Year Maintenance Plan", cost: 0 }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        function formatPesos(num) {
+            return `₱${num.toLocaleString()}`;
+        }
+
+        function updatePrice(basePrice, plan) {
+            const modalPrice = document.getElementById('modalPrice');
+            const monthlyAmount = document.getElementById('monthlyAmount');
+            const totalAmount = document.getElementById('totalAmount');
+            const interestAmount = document.getElementById('interestAmount');
+            const breakdown = document.getElementById('installmentBreakdown');
+            const breakdownTable = document.getElementById('breakdownTable');
+
+            let months = 0;
+            let interestRate = 0;
+
+            if (plan === 'full') {
+                modalPrice.innerText = formatPesos(basePrice);
+                breakdown.classList.add('hidden');
+                updateDealershipBreakdown(basePrice, 0, 0);
+            } else {
+                months = parseInt(plan);
+                if (plan === '24') interestRate = 0.05;
+                if (plan === '36') interestRate = 0.10;
+
+                const totalCost = basePrice * (1 + interestRate);
+                const monthly = Math.round(totalCost / months);
+                const interest = totalCost - basePrice;
+
+                modalPrice.innerText = `${formatPesos(monthly)} / month`;
+                monthlyAmount.innerText = formatPesos(monthly);
+                totalAmount.innerText = formatPesos(Math.round(totalCost));
+                interestAmount.innerText = formatPesos(Math.round(interest));
+                breakdown.classList.remove('hidden');
+                updateDealershipBreakdown(basePrice, months, interestRate);
+
+                // generate breakdown table
+                const breakdownTable = document.getElementById('breakdownTable');
+                breakdownTable.innerHTML = '';
+
+                const plans = [
+                    { label: '12 mo (0%)', months: 12, rate: 0 },
+                    { label: '24 mo (5%)', months: 24, rate: 0.05 },
+                    { label: '36 mo (10%)', months: 36, rate: 0.10 }
+                ];
+
+                plans.forEach(p => {
+                    const total = basePrice * (1 + p.rate);
+                    const monthly = total / p.months;
+                    const interest = total - basePrice;
+
+                    breakdownTable.innerHTML += `
+                                                                    <tr class="border-b border-gray-800">
+                                                                    <td class="py-1">${p.label}</td>
+                                                                    <td>${formatPesos(Math.round(monthly))}</td>
+                                                                    <td>${formatPesos(Math.round(total))}</td>
+                                                                    <td>${formatPesos(Math.round(interest))}</td>
+                                                                    </tr>
+                                                  `;
+                });
+
+
+
+            }
+
+        }
+        function updateDealershipBreakdown(basePrice, months, interestRate) {
+            const downSlider = document.getElementById('downSlider');
+            const downPercent = parseInt(downSlider.value);
+            const downAmount = Math.round(basePrice * (downPercent / 100));
+            const loanAmount = basePrice - downAmount;
+
+            const legalInterest = Math.round(loanAmount * interestRate);
+            const legalFees = 17000;
+            const insurancePerYear = 45000;
+            const insuranceTotal = insurancePerYear * Math.ceil(months / 12);
+            const ownershipTotal = basePrice + legalInterest + legalFees + insuranceTotal;
+
+            document.getElementById('downAmount').innerText = formatPesos(downAmount);
+            document.getElementById('downPercentText').innerText = `${downPercent}%`;
+            document.getElementById('loanAmount').innerText = formatPesos(loanAmount);
+            document.getElementById('legalInterest').innerText = formatPesos(legalInterest);
+            document.getElementById('legalFees').innerText = formatPesos(legalFees);
+            document.getElementById('legalInsurance').innerText = formatPesos(insurancePerYear);
+            document.getElementById('ownershipTotal').innerText = formatPesos(ownershipTotal);
+        }
+
+        function openOrderModal(model) {
+            const modal = document.getElementById('orderModal');
+            const data = carData[model];
+            const trimSelect = document.getElementById('trimSelect');
+            const planSelect = document.getElementById('installmentPlan');
+
+            trimSelect.innerHTML = data.trims.map((trim, i) => `<option value="${i}">${trim.name} — ${trim.description}</option>`).join('');
+
+            function renderTrim(index) {
+                const trim = data.trims[index];
+                document.getElementById('modalTitle').innerText = `${data.title} – ${trim.name}`;
+                document.getElementById('modalImage1').src = trim.image;
+                document.getElementById('modalSpecs').innerHTML = `
+                                                                  <p><strong>Range:</strong> ${trim.range}</p>
+                                                                  ${trim.accel ? `<p><strong>0-100 km/h:</strong> ${trim.accel}</p>` : ''}
+                                                                  <p><strong>Drive Type:</strong> ${trim.drive}</p>
+                                                                  <p><strong>Suspension:</strong> ${trim.specs.suspension}</p>
+                                                                  <p><strong>Transmission:</strong> ${trim.specs.transmission}</p>
+                                                                  <p><strong>Tires:</strong> ${trim.specs.tires}</p>
+                                                                  <ul class="mt-4 space-y-1 text-sm text-gray-400">${trim.features.map(f => `<li>• ${f}</li>`).join('')}</ul>`;
+                updatePrice(trim.price, planSelect.value);
+
+                // Populate included features breakdown
+                const featuresList = document.getElementById('featuresList');
+                featuresList.innerHTML = '';
+
+                trim.includedFeatures.forEach(feature => {
+                    featuresList.innerHTML += `
+                                                                    <li class="flex justify-between">
+                                                                    <span>✓ ${feature.name}</span>
+                                                                    <span class="text-white font-medium">${formatPesos(feature.cost)}</span>
+                                                                    </li>`;
+                });
+
+            }
+
+            trimSelect.onchange = () => renderTrim(parseInt(trimSelect.value));
+            planSelect.onchange = () => renderTrim(parseInt(trimSelect.value));
+
+            renderTrim(0);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeOrderModal() {
+            const modal = document.getElementById('orderModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function toggleBreakdown() {
+            const wrapper = document.getElementById('financialBreakdownWrapper');
+            const label = document.getElementById('breakdownToggleLabel');
+            const icon = document.getElementById('breakdownToggleIcon');
+
+            const isOpen = wrapper.style.maxHeight && wrapper.style.maxHeight !== "0px";
+
+            if (isOpen) {
+                wrapper.style.maxHeight = "0";
+                wrapper.style.opacity = "0";
+                label.textContent = "Show Included Value Breakdown";
+                icon.classList.remove("rotate-180");
+            } else {
+                const scrollHeight = wrapper.scrollHeight + "px";
+                wrapper.style.maxHeight = scrollHeight;
+                wrapper.style.opacity = "1";
+                label.textContent = "Hide Included Value Breakdown";
+                icon.classList.add("rotate-180");
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const downSlider = document.getElementById('downSlider');
+            const installmentPlan = document.getElementById('installmentPlan');
+            const trimSelect = document.getElementById('trimSelect');
+            const modalTitle = document.getElementById('modalTitle');
+
+            if (downSlider && installmentPlan && trimSelect && modalTitle) {
+                downSlider.addEventListener('input', () => {
+                    const plan = installmentPlan.value;
+                    const trimIndex = trimSelect.value;
+                    const model = modalTitle.textContent
+                        .split("–")[0]
+                        .trim()
+                        .replace("Order H2X ", "")
+                        .toLowerCase();
+
+                    const trim = carData[model]?.trims[parseInt(trimIndex)];
+                    if (!trim) return; // failsafe if data missing
+
+                    let interestRate = 0;
+                    if (plan === '24') interestRate = 0.05;
+                    if (plan === '36') interestRate = 0.10;
+                    const months = plan === 'full' ? 0 : parseInt(plan);
+
+                    updateDealershipBreakdown(trim.price, months, interestRate);
+                });
+            }
+        });
+
+        const engineSounds = {};
+        let currentPlayingModel = null;
+
+        function toggleEngineSound(model) {
+            // Pause currently playing sound if it's not the same
+            if (currentPlayingModel && currentPlayingModel !== model) {
+                engineSounds[currentPlayingModel]?.pause();
+                engineSounds[currentPlayingModel].currentTime = 0;
+            }
+
+            // Load if not loaded yet
+            if (!engineSounds[model]) {
+                engineSounds[model] = new Audio(`${model}-sound.mp3`);
+            }
+
+            const audio = engineSounds[model];
+
+            if (audio.paused) {
+                audio.play();
+                currentPlayingModel = model;
+            } else {
+                audio.pause();
+                audio.currentTime = 0;
+                currentPlayingModel = null;
+            }
+        }
+
+        function openTestDriveModal() {
+            const modal = document.getElementById('testDriveModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.querySelector('div').style.opacity = "1";
+                modal.querySelector('div').style.transform = "scale(1)";
+            }, 50);
+        }
+
+        function closeTestDriveModal() {
+            const modal = document.getElementById('testDriveModal');
+            modal.querySelector('div').style.opacity = "0";
+            modal.querySelector('div').style.transform = "scale(0.95)";
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = message;
+            toast.style.opacity = "1";
+            toast.style.pointerEvents = "auto";
+
+            setTimeout(() => {
+                toast.style.opacity = "0";
+                toast.style.pointerEvents = "none";
+            }, 4000);
+        }
+
+        function submitTestDrive(e) {
+            e.preventDefault();
+            const form = e.target;
+            const name = form.querySelector('input[type="text"]').value;
+            const model = form.querySelector('select').value;
+            const date = form.querySelector('input[type="date"]').value;
+            const time = form.querySelector('input[type="time"]').value;
+
+            const message = `Thanks, ${name}! Your ${model} test drive is scheduled for ${date} at ${time}. We'll send further instructions via Gmail.`;
+            showToast(message);
+            closeTestDriveModal();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.model-card');
+            const hiddenInput = document.getElementById('selectedModel');
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    cards.forEach(c => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    hiddenInput.value = card.dataset.model;
+                });
+            });
+        });
+
+        const heroModels = [
+            { name: "Siklab", img: "car-h2x.png" },
+            { name: "Lakbay", img: "car-lakbay.png" },
+            { name: "Bayan", img: "car-bayan.png" },
+            { name: "Ulap", img: "car-ulap.png" },
+        ];
+        let heroIndex = 0;
+
+        function updateHeroModel() {
+            const modelName = document.getElementById("modelName");
+            const modelImage = document.getElementById("modelHeroImage");
+            const selectedModel = document.getElementById("selectedModel");
+
+            modelImage.style.opacity = 0; // fade out first
+            setTimeout(() => {
+                modelName.innerText = heroModels[heroIndex].name;
+                modelImage.src = heroModels[heroIndex].img;
+                selectedModel.value = heroModels[heroIndex].name;
+                // fade in happens on image load via onload
+            }, 250);
+        }
+
+        function nextModel() {
+            heroIndex = (heroIndex + 1) % heroModels.length;
+            updateHeroModel();
+        }
+
+        function prevModel() {
+            heroIndex = (heroIndex - 1 + heroModels.length) % heroModels.length;
+            updateHeroModel();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            updateHeroModel();
+        }
+            , document.addEventListener('DOMContentLoaded', () => {
+                const seriesInfo = {
+                    fe: {
+                        title: "Formula E – Energy Precision",
+                        content: `
+          <p>Our entry into Formula E was driven by the need to perfect hydrogen system efficiency in a tight, urban, high-frequency braking environment. Across multiple seasons, we used the all-electric platform to refine everything from regenerative energy capture to thermal envelope control — all under real-time race pressure.</p>
+
+          <strong class="block mt-4">Key Innovations Developed:</strong>
+          <ul class="list-disc pl-6">
+            <li>Advanced regen braking energy capture calibration</li>
+            <li>Cell-stack thermal regulation during frequent high-load spikes</li>
+            <li>Microcontroller-level energy budgeting systems</li>
+          </ul>
+
+          <strong class="block mt-4">Consumer Tech Translation:</strong>
+          <ul class="list-disc pl-6">
+            <li>The H2GO Unit’s efficiency now exceeds 94%, thanks to those energy-mapping algorithms</li>
+            <li>Thermal management from FE is now used in city-grade kits for fluctuating power environments</li>
+            <li>Low-lag electrolysis control logic derived from fast-paced urban race tuning</li>
+          </ul>
+
+          <strong class="block mt-4">Notable Performances:</strong>
+          <ul class="list-disc pl-6">
+            <li>Claimed our first victory in the 2025 Seoul E-Prix with &lt;1% battery deviation between heats</li>
+            <li>Developed the first FE car running real-time stack health telemetry — later ported to H2GO Pro diagnostics</li>
+          </ul>
+        `,
+                        carImage: "motorsport_FE_car.png"
+                    },
+                    lmp1: {
+                        title: "Le Mans LMP1 – Endurance Mastery",
+                        content: `
+          <p>With Toyota GR as our tech partner, we entered the hydrogen-hybrid prototype category at Le Mans to simulate 24-hour runtime stress — something no lab could replicate. The result was a drivetrain that could manage performance, heat, and durability without missing a beat.</p>
+
+          <strong class="block mt-4">Key Innovations Developed:</strong>
+          <ul class="list-disc pl-6">
+            <li>High-temperature cell membranes capable of 24+ hour performance</li>
+            <li>Dual-energy balancing (battery and hydrogen integration)</li>
+            <li>Modular powerpack replacement system under pit-speed constraints</li>
+          </ul>
+
+          <strong class="block mt-4">Consumer Tech Translation:</strong>
+          <ul class="list-disc pl-6">
+            <li>Launched autonomous thermal control loops in consumer kits</li>
+            <li>Pioneered modular repairable stack designs now used in rural deployments</li>
+            <li>Improved stack lifecycle and degradation profiles</li>
+          </ul>
+
+          <strong class="block mt-4">Notable Performances:</strong>
+          <ul class="list-disc pl-6">
+            <li>3rd-place podium at The 2025 Le Mans 24H in OVERALL Classification</li>
+            <li>Achieved zero powertrain failures over 2,000+ km of continuous load testing</li>
+            <li>Recorded best-in-class system heat retention efficiency (only 2.6°C drift over race cycle)</li>
+          </ul>
+        `,
+                        carImage: "motorsport_LMP1_ToyotaGR.png"
+                    },
+                    egt: {
+                        title: "eGT – Street-Ready, Race-Honed",
+                        content: `
+          <p>To prove our tech could live beyond the lab, we entered the eGT World Series. Competing against Porsche, Rimac, and NIO, our H2X Siklab GT car focused on practical torque control, thermal drift, and long-range battery-hydrogen hybrid integration — all while remaining street-legal.</p>
+
+          <strong class="block mt-4">Key Innovations Developed:</strong>
+          <ul class="list-disc pl-6">
+            <li>Fine-tuned daily-drivable torque smoothing</li>
+            <li>Track-adaptive power delivery curves (via terrain learning)</li>
+            <li>Battery+Hydrogen balancing for real-world mixed load cycles</li>
+          </ul>
+
+          <strong class="block mt-4">Consumer Tech Translation:</strong>
+          <ul class="list-disc pl-6">
+            <li>H2GO’s Smart Torque Mode™ was born from GT telemetry</li>
+            <li>Introduced user-adjustable power delivery modes via app</li>
+            <li>Track-safe boost logic later integrated into fleet-based kits for performance zones</li>
+          </ul>
+
+          <strong class="block mt-4">Notable Performances:</strong>
+          <ul class="list-disc pl-6">
+            <li>Fastest sector times in 3 circuits during eGT Asia 2025</li>
+            <li>Won the 2024 eGT Berlin Tour</li>
+            <li>Recorded zero controller lag at full torque across 5 tire compounds</li>
+          </ul>
+        `,
+                        carImage: "motorsport_GT_racer.png"
+                    },
+                    ewrx: {
+                        title: "eWRX – Total Terrain Testing",
+                        content: `
+          <p>We pushed the limits of our system’s durability by entering the electric rallycross grid. With instant terrain shifts, shock loads, and airborne impacts, this series acted as a chaos lab for validating balance, suspension interoperability, and low-latency torque changes.</p>
+
+          <strong class="block mt-4">Key Innovations Developed:</strong>
+          <ul class="list-disc pl-6">
+            <li>Real-time terrain response torque throttling</li>
+            <li>Shock-absorbing cell housing with g-load resistance</li>
+            <li>Redundant power logic for fluctuating traction conditions</li>
+          </ul>
+
+          <strong class="block mt-4">Consumer Tech Translation:</strong>
+          <ul class="list-disc pl-6">
+            <li>Ruggedized casing tech ported directly into H2GO Outdoors</li>
+            <li>Vibration-insulated electrolyzers based on WRX stress tests</li>
+            <li>Smart Traction Logic™, designed from uneven grip race data</li>
+          </ul>
+
+          <strong class="block mt-4">Notable Performances:</strong>
+          <ul class="list-disc pl-6">
+            <li>Survived 11m jump at Arctic RX round with no cell degradation</li>
+            <li>Finished full WRX season with 100% powertrain reliability</li>
+            <li>Outperformed baseline EVs in multi-surface time trials</li>
+          </ul>
+        `,
+                        carImage: "motorsport_rally_car.png"
+                    },
+                    baja: {
+                        title: "Baja Rally – Built to Survive",
+                        content: `
+          <p>Baja is where simulations end. In a grueling, hot, and remote environment, our sealed H2 system endured shocks, dust, and pure isolation. No grid. No shade. Just 1000 km of punishment. And it came out clean.</p>
+
+          <strong class="block mt-4">Key Innovations Developed:</strong>
+          <ul class="list-disc pl-6">
+            <li>Sealed-stack architecture with sand/dust isolation</li>
+            <li>Offline-capable telemetry & diagnostics</li>
+            <li>Auto-regulating pressure control valves for elevation and heat</li>
+          </ul>
+
+          <strong class="block mt-4">Consumer Tech Translation:</strong>
+          <ul class="list-disc pl-6">
+            <li>Zero-maintenance hydrogen packs used in expedition-grade units</li>
+            <li>Heatproof outer shells now standard in field-deployed kits</li>
+            <li>Intelligent fallback power logic — powered from remote Baja isolation testing</li>
+          </ul>
+
+          <strong class="block mt-4">Notable Performances:</strong>
+          <ul class="list-disc pl-6">
+            <li>Completed Baja 1000 off-grid on single hybrid charge</li>
+            <li>Withstood +47°C ambient temperature for 7 hours</li>
+            <li>Only hydrogen entrant to finish full stage without repairs</li>
+          </ul>
+        `,
+                        carImage: "motorsport_baja_rally.png"
+                    }
+                };
+
+                document.querySelectorAll('.series-box').forEach(box => {
+                    box.addEventListener('click', () => {
+                        const key = box.dataset.series;
+                        const data = seriesInfo[key];
+                        if (!data) return;
+
+                        document.getElementById('seriesModalTitle').textContent = data.title || "";
+                        document.getElementById('seriesModalContent').innerHTML = `
+                        <img src="${data.carImage}" alt="${data.title}" style="aspect-ratio: 3 / 2;" class="w-full max-w-[768px] object-cover rounded-xl mx-auto" />
+                        <div class="text-md leading-relaxed mt-4">${data.content}</div>
+                        `;
+
+
+                        const modal = document.getElementById('seriesModal');
+                        modal.classList.remove('hidden');
+                        setTimeout(() => modal.classList.add('show'), 10);
+                    });
+                });
+
+                window.closeModal = function () {
+                    const modal = document.getElementById('seriesModal');
+                    modal.classList.remove('show');
+                    setTimeout(() => modal.classList.add('hidden'), 300);
+                };
+            }));
+    </script>
+
+</body>
+</html>
