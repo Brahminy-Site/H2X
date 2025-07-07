@@ -697,6 +697,50 @@
         <p class="mt-10 text-gray-600 text-sm">Or email us at <a href="mailto:brahminymotors@gmail.com" class="underline">brahminymotors@gmail.com</a></p>
     </section>
 
+    <!-- Centered Brand + Socials Section -->
+    <section class="bg-neutral-950 text-white py-12 px-6">
+        <div class="max-w-3xl mx-auto flex flex-col items-center text-center space-y-4">
+            <!-- Larger Company Logo -->
+            <img src="your-logo.png" alt="Brahminy Motors Logo" class="w-20 h-20 object-contain" />
+
+            <h3 class="text-2xl font-bold tracking-wide">BRAHMINY MOTORS</h3>
+            <p class="text-sm text-gray-400 italic">The Future Doesn’t Wait — It Rises.</p>
+
+            <!-- Social Icons with Rickroll -->
+            <div class="flex space-x-6 mt-4">
+                <!-- YouTube -->
+                <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" target="_blank" aria-label="YouTube" class="hover:text-red-500">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                        <path d="M23.5 6.2s-.2-1.6-.8-2.3c-.8-.8-1.6-.8-2-.9C17.2 2.7 12 2.7 12 2.7h-.1s-5.2 0-8.7.3c-.4 0-1.2.1-2 .9C.6 4.6.5 6.2.5 6.2S.3 7.9.3 9.6v1.7c0 1.7.2 3.4.2 3.4s.2 1.6.8 2.3c.8.8 1.8.8 2.3.9 1.7.2 7.2.3 7.2.3s5.2 0 8.7-.3c.4 0 1.2-.1 2-.9.6-.6.8-2.3.8-2.3s.2-1.7.2-3.4V9.6c.1-1.7-.1-3.4-.1-3.4zM9.8 14.4V7.8l6.2 3.3-6.2 3.3z" />
+                    </svg>
+                </a>
+
+                <!-- X / Twitter -->
+                <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" target="_blank" aria-label="X" class="hover:text-white">
+                    <!-- Clean X SVG logo -->
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 1200 1227" xmlns="http://www.w3.org/2000/svg" role="img">
+                        <title>X</title>
+                        <path d="M1057.6 0L725.4 446.3 1084.5 903H848.2L617.3 602.2 348.2 903H0L363.2 443.6 17.7 0h246.3l218.5 289.2L726.3 0z" />
+                    </svg>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" target="_blank" aria-label="Instagram" class="hover:text-pink-500">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                        <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 2c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3h10zm-5 3a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6zm4.5-.25a1.25 1.25 0 11-2.5 0 1.25 1.25 0 012.5 0z" />
+                    </svg>
+                </a>
+
+                <!-- Facebook -->
+                <a href="https://www.youtube.com/watch?v=xvFZjo5PgG0" target="_blank" aria-label="Facebook" class="hover:text-blue-600">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                        <path d="M22 12.07C22 6.48 17.52 2 12 2S2 6.48 2 12.07c0 5.02 3.66 9.18 8.44 9.93v-7.03h-2.54v-2.9h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.9h-2.34v7.03C18.34 21.25 22 17.09 22 12.07z" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="fade-section bg-black text-center text-sm text-gray-500 py-8">
         <p>© 2025 Brahminy Motors. All rights reserved.</p>
@@ -814,7 +858,9 @@
                 </div>
 
                 <!-- Action Button -->
-                <button class="w-full bg-sky-600 hover:bg-sky-700 px-6 py-3 rounded-full font-semibold">Proceed to Customization</button>
+                <button onclick="rickRoll()" class="w-full bg-sky-600 hover:bg-sky-700 px-6 py-3 rounded-full font-semibold">
+                    Proceed to Customization
+                </button>
             </div>
         </div>
     </div>
@@ -1377,13 +1423,13 @@
                     const interest = total - basePrice;
 
                     breakdownTable.innerHTML += `
-                                                                    <tr class="border-b border-gray-800">
-                                                                    <td class="py-1">${p.label}</td>
-                                                                    <td>${formatPesos(Math.round(monthly))}</td>
-                                                                    <td>${formatPesos(Math.round(total))}</td>
-                                                                    <td>${formatPesos(Math.round(interest))}</td>
-                                                                    </tr>
-                                                  `;
+                                                                                    <tr class="border-b border-gray-800">
+                                                                                    <td class="py-1">${p.label}</td>
+                                                                                    <td>${formatPesos(Math.round(monthly))}</td>
+                                                                                    <td>${formatPesos(Math.round(total))}</td>
+                                                                                    <td>${formatPesos(Math.round(interest))}</td>
+                                                                                    </tr>
+                                                                  `;
                 });
 
 
@@ -1425,13 +1471,13 @@
                 document.getElementById('modalTitle').innerText = `${data.title} – ${trim.name}`;
                 document.getElementById('modalImage1').src = trim.image;
                 document.getElementById('modalSpecs').innerHTML = `
-                                                                  <p><strong>Range:</strong> ${trim.range}</p>
-                                                                  ${trim.accel ? `<p><strong>0-100 km/h:</strong> ${trim.accel}</p>` : ''}
-                                                                  <p><strong>Drive Type:</strong> ${trim.drive}</p>
-                                                                  <p><strong>Suspension:</strong> ${trim.specs.suspension}</p>
-                                                                  <p><strong>Transmission:</strong> ${trim.specs.transmission}</p>
-                                                                  <p><strong>Tires:</strong> ${trim.specs.tires}</p>
-                                                                  <ul class="mt-4 space-y-1 text-sm text-gray-400">${trim.features.map(f => `<li>• ${f}</li>`).join('')}</ul>`;
+                                                                                  <p><strong>Range:</strong> ${trim.range}</p>
+                                                                                  ${trim.accel ? `<p><strong>0-100 km/h:</strong> ${trim.accel}</p>` : ''}
+                                                                                  <p><strong>Drive Type:</strong> ${trim.drive}</p>
+                                                                                  <p><strong>Suspension:</strong> ${trim.specs.suspension}</p>
+                                                                                  <p><strong>Transmission:</strong> ${trim.specs.transmission}</p>
+                                                                                  <p><strong>Tires:</strong> ${trim.specs.tires}</p>
+                                                                                  <ul class="mt-4 space-y-1 text-sm text-gray-400">${trim.features.map(f => `<li>• ${f}</li>`).join('')}</ul>`;
                 updatePrice(trim.price, planSelect.value);
 
                 // Populate included features breakdown
@@ -1440,10 +1486,10 @@
 
                 trim.includedFeatures.forEach(feature => {
                     featuresList.innerHTML += `
-                                                                    <li class="flex justify-between">
-                                                                    <span>✓ ${feature.name}</span>
-                                                                    <span class="text-white font-medium">${formatPesos(feature.cost)}</span>
-                                                                    </li>`;
+                                                                                    <li class="flex justify-between">
+                                                                                    <span>✓ ${feature.name}</span>
+                                                                                    <span class="text-white font-medium">${formatPesos(feature.cost)}</span>
+                                                                                    </li>`;
                 });
 
             }
@@ -1460,6 +1506,12 @@
             const modal = document.getElementById('orderModal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+
+            // Reset scroll + forms
+            document.getElementById('modalContent').scrollTop = 0;
+            document.getElementById('trimSelect').selectedIndex = 0;
+            document.getElementById('installmentPlan').value = "full";
+            currentOrderModel = null;
         }
 
         function toggleBreakdown() {
@@ -1638,140 +1690,140 @@
                     fe: {
                         title: "Formula E – Energy Precision",
                         content: `
-          <p>Our entry into Formula E was driven by the need to perfect hydrogen system efficiency in a tight, urban, high-frequency braking environment. Across multiple seasons, we used the all-electric platform to refine everything from regenerative energy capture to thermal envelope control — all under real-time race pressure.</p>
+                          <p>Our entry into Formula E was driven by the need to perfect hydrogen system efficiency in a tight, urban, high-frequency braking environment. Across multiple seasons, we used the all-electric platform to refine everything from regenerative energy capture to thermal envelope control — all under real-time race pressure.</p>
 
-          <strong class="block mt-4">Key Innovations Developed:</strong>
-          <ul class="list-disc pl-6">
-            <li>Advanced regen braking energy capture calibration</li>
-            <li>Cell-stack thermal regulation during frequent high-load spikes</li>
-            <li>Microcontroller-level energy budgeting systems</li>
-          </ul>
+                          <strong class="block mt-4">Key Innovations Developed:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>Advanced regen braking energy capture calibration</li>
+                            <li>Cell-stack thermal regulation during frequent high-load spikes</li>
+                            <li>Microcontroller-level energy budgeting systems</li>
+                          </ul>
 
-          <strong class="block mt-4">Consumer Tech Translation:</strong>
-          <ul class="list-disc pl-6">
-            <li>The H2GO Unit’s efficiency now exceeds 94%, thanks to those energy-mapping algorithms</li>
-            <li>Thermal management from FE is now used in city-grade kits for fluctuating power environments</li>
-            <li>Low-lag electrolysis control logic derived from fast-paced urban race tuning</li>
-          </ul>
+                          <strong class="block mt-4">Consumer Tech Translation:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>The H2GO Unit’s efficiency now exceeds 94%, thanks to those energy-mapping algorithms</li>
+                            <li>Thermal management from FE is now used in city-grade kits for fluctuating power environments</li>
+                            <li>Low-lag electrolysis control logic derived from fast-paced urban race tuning</li>
+                          </ul>
 
-          <strong class="block mt-4">Notable Performances:</strong>
-          <ul class="list-disc pl-6">
-            <li>Claimed our first victory in the 2025 Seoul E-Prix with &lt;1% battery deviation between heats</li>
-            <li>Developed the first FE car running real-time stack health telemetry — later ported to H2GO Pro diagnostics</li>
-          </ul>
-        `,
+                          <strong class="block mt-4">Notable Performances:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>Claimed our first victory in the 2025 Seoul E-Prix with &lt;1% battery deviation between heats</li>
+                            <li>Developed the first FE car running real-time stack health telemetry — later ported to H2GO Pro diagnostics</li>
+                          </ul>
+                        `,
                         carImage: "motorsport_FE_car.png"
                     },
                     lmp1: {
                         title: "Le Mans LMP1 – Endurance Mastery",
                         content: `
-          <p>With Toyota GR as our tech partner, we entered the hydrogen-hybrid prototype category at Le Mans to simulate 24-hour runtime stress — something no lab could replicate. The result was a drivetrain that could manage performance, heat, and durability without missing a beat.</p>
+                          <p>With Toyota GR as our tech partner, we entered the hydrogen-hybrid prototype category at Le Mans to simulate 24-hour runtime stress — something no lab could replicate. The result was a drivetrain that could manage performance, heat, and durability without missing a beat.</p>
 
-          <strong class="block mt-4">Key Innovations Developed:</strong>
-          <ul class="list-disc pl-6">
-            <li>High-temperature cell membranes capable of 24+ hour performance</li>
-            <li>Dual-energy balancing (battery and hydrogen integration)</li>
-            <li>Modular powerpack replacement system under pit-speed constraints</li>
-          </ul>
+                          <strong class="block mt-4">Key Innovations Developed:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>High-temperature cell membranes capable of 24+ hour performance</li>
+                            <li>Dual-energy balancing (battery and hydrogen integration)</li>
+                            <li>Modular powerpack replacement system under pit-speed constraints</li>
+                          </ul>
 
-          <strong class="block mt-4">Consumer Tech Translation:</strong>
-          <ul class="list-disc pl-6">
-            <li>Launched autonomous thermal control loops in consumer kits</li>
-            <li>Pioneered modular repairable stack designs now used in rural deployments</li>
-            <li>Improved stack lifecycle and degradation profiles</li>
-          </ul>
+                          <strong class="block mt-4">Consumer Tech Translation:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>Launched autonomous thermal control loops in consumer kits</li>
+                            <li>Pioneered modular repairable stack designs now used in rural deployments</li>
+                            <li>Improved stack lifecycle and degradation profiles</li>
+                          </ul>
 
-          <strong class="block mt-4">Notable Performances:</strong>
-          <ul class="list-disc pl-6">
-            <li>3rd-place podium at The 2025 Le Mans 24H in OVERALL Classification</li>
-            <li>Achieved zero powertrain failures over 2,000+ km of continuous load testing</li>
-            <li>Recorded best-in-class system heat retention efficiency (only 2.6°C drift over race cycle)</li>
-          </ul>
-        `,
+                          <strong class="block mt-4">Notable Performances:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>3rd-place podium at The 2025 Le Mans 24H in OVERALL Classification</li>
+                            <li>Achieved zero powertrain failures over 2,000+ km of continuous load testing</li>
+                            <li>Recorded best-in-class system heat retention efficiency (only 2.6°C drift over race cycle)</li>
+                          </ul>
+                        `,
                         carImage: "motorsport_LMP1_ToyotaGR.png"
                     },
                     egt: {
                         title: "eGT – Street-Ready, Race-Honed",
                         content: `
-          <p>To prove our tech could live beyond the lab, we entered the eGT World Series. Competing against Porsche, Rimac, and NIO, our H2X Siklab GT car focused on practical torque control, thermal drift, and long-range battery-hydrogen hybrid integration — all while remaining street-legal.</p>
+                          <p>To prove our tech could live beyond the lab, we entered the eGT World Series. Competing against Porsche, Rimac, and NIO, our H2X Siklab GT car focused on practical torque control, thermal drift, and long-range battery-hydrogen hybrid integration — all while remaining street-legal.</p>
 
-          <strong class="block mt-4">Key Innovations Developed:</strong>
-          <ul class="list-disc pl-6">
-            <li>Fine-tuned daily-drivable torque smoothing</li>
-            <li>Track-adaptive power delivery curves (via terrain learning)</li>
-            <li>Battery+Hydrogen balancing for real-world mixed load cycles</li>
-          </ul>
+                          <strong class="block mt-4">Key Innovations Developed:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>Fine-tuned daily-drivable torque smoothing</li>
+                            <li>Track-adaptive power delivery curves (via terrain learning)</li>
+                            <li>Battery+Hydrogen balancing for real-world mixed load cycles</li>
+                          </ul>
 
-          <strong class="block mt-4">Consumer Tech Translation:</strong>
-          <ul class="list-disc pl-6">
-            <li>H2GO’s Smart Torque Mode™ was born from GT telemetry</li>
-            <li>Introduced user-adjustable power delivery modes via app</li>
-            <li>Track-safe boost logic later integrated into fleet-based kits for performance zones</li>
-          </ul>
+                          <strong class="block mt-4">Consumer Tech Translation:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>H2GO’s Smart Torque Mode™ was born from GT telemetry</li>
+                            <li>Introduced user-adjustable power delivery modes via app</li>
+                            <li>Track-safe boost logic later integrated into fleet-based kits for performance zones</li>
+                          </ul>
 
-          <strong class="block mt-4">Notable Performances:</strong>
-          <ul class="list-disc pl-6">
-            <li>Fastest sector times in 3 circuits during eGT Asia 2025</li>
-            <li>Won the 2024 eGT Berlin Tour</li>
-            <li>Recorded zero controller lag at full torque across 5 tire compounds</li>
-          </ul>
-        `,
+                          <strong class="block mt-4">Notable Performances:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>Fastest sector times in 3 circuits during eGT Asia 2025</li>
+                            <li>Won the 2024 eGT Berlin Tour</li>
+                            <li>Recorded zero controller lag at full torque across 5 tire compounds</li>
+                          </ul>
+                        `,
                         carImage: "motorsport_GT_racer.png"
                     },
                     ewrx: {
                         title: "eWRX – Total Terrain Testing",
                         content: `
-          <p>We pushed the limits of our system’s durability by entering the electric rallycross grid. With instant terrain shifts, shock loads, and airborne impacts, this series acted as a chaos lab for validating balance, suspension interoperability, and low-latency torque changes.</p>
+                          <p>We pushed the limits of our system’s durability by entering the electric rallycross grid. With instant terrain shifts, shock loads, and airborne impacts, this series acted as a chaos lab for validating balance, suspension interoperability, and low-latency torque changes.</p>
 
-          <strong class="block mt-4">Key Innovations Developed:</strong>
-          <ul class="list-disc pl-6">
-            <li>Real-time terrain response torque throttling</li>
-            <li>Shock-absorbing cell housing with g-load resistance</li>
-            <li>Redundant power logic for fluctuating traction conditions</li>
-          </ul>
+                          <strong class="block mt-4">Key Innovations Developed:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>Real-time terrain response torque throttling</li>
+                            <li>Shock-absorbing cell housing with g-load resistance</li>
+                            <li>Redundant power logic for fluctuating traction conditions</li>
+                          </ul>
 
-          <strong class="block mt-4">Consumer Tech Translation:</strong>
-          <ul class="list-disc pl-6">
-            <li>Ruggedized casing tech ported directly into H2GO Outdoors</li>
-            <li>Vibration-insulated electrolyzers based on WRX stress tests</li>
-            <li>Smart Traction Logic™, designed from uneven grip race data</li>
-          </ul>
+                          <strong class="block mt-4">Consumer Tech Translation:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>Ruggedized casing tech ported directly into H2GO Outdoors</li>
+                            <li>Vibration-insulated electrolyzers based on WRX stress tests</li>
+                            <li>Smart Traction Logic™, designed from uneven grip race data</li>
+                          </ul>
 
-          <strong class="block mt-4">Notable Performances:</strong>
-          <ul class="list-disc pl-6">
-            <li>Survived 11m jump at Arctic RX round with no cell degradation</li>
-            <li>Finished full WRX season with 100% powertrain reliability</li>
-            <li>Outperformed baseline EVs in multi-surface time trials</li>
-          </ul>
-        `,
+                          <strong class="block mt-4">Notable Performances:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>Survived 11m jump at Arctic RX round with no cell degradation</li>
+                            <li>Finished full WRX season with 100% powertrain reliability</li>
+                            <li>Outperformed baseline EVs in multi-surface time trials</li>
+                          </ul>
+                        `,
                         carImage: "motorsport_rally_car.png"
                     },
                     baja: {
                         title: "Baja Rally – Built to Survive",
                         content: `
-          <p>Baja is where simulations end. In a grueling, hot, and remote environment, our sealed H2 system endured shocks, dust, and pure isolation. No grid. No shade. Just 1000 km of punishment. And it came out clean.</p>
+                          <p>Baja is where simulations end. In a grueling, hot, and remote environment, our sealed H2 system endured shocks, dust, and pure isolation. No grid. No shade. Just 1000 km of punishment. And it came out clean.</p>
 
-          <strong class="block mt-4">Key Innovations Developed:</strong>
-          <ul class="list-disc pl-6">
-            <li>Sealed-stack architecture with sand/dust isolation</li>
-            <li>Offline-capable telemetry & diagnostics</li>
-            <li>Auto-regulating pressure control valves for elevation and heat</li>
-          </ul>
+                          <strong class="block mt-4">Key Innovations Developed:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>Sealed-stack architecture with sand/dust isolation</li>
+                            <li>Offline-capable telemetry & diagnostics</li>
+                            <li>Auto-regulating pressure control valves for elevation and heat</li>
+                          </ul>
 
-          <strong class="block mt-4">Consumer Tech Translation:</strong>
-          <ul class="list-disc pl-6">
-            <li>Zero-maintenance hydrogen packs used in expedition-grade units</li>
-            <li>Heatproof outer shells now standard in field-deployed kits</li>
-            <li>Intelligent fallback power logic — powered from remote Baja isolation testing</li>
-          </ul>
+                          <strong class="block mt-4">Consumer Tech Translation:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>Zero-maintenance hydrogen packs used in expedition-grade units</li>
+                            <li>Heatproof outer shells now standard in field-deployed kits</li>
+                            <li>Intelligent fallback power logic — powered from remote Baja isolation testing</li>
+                          </ul>
 
-          <strong class="block mt-4">Notable Performances:</strong>
-          <ul class="list-disc pl-6">
-            <li>Completed Baja 1000 off-grid on single hybrid charge</li>
-            <li>Withstood +47°C ambient temperature for 7 hours</li>
-            <li>Only hydrogen entrant to finish full stage without repairs</li>
-          </ul>
-        `,
+                          <strong class="block mt-4">Notable Performances:</strong>
+                          <ul class="list-disc pl-6">
+                            <li>Completed Baja 1000 off-grid on single hybrid charge</li>
+                            <li>Withstood +47°C ambient temperature for 7 hours</li>
+                            <li>Only hydrogen entrant to finish full stage without repairs</li>
+                          </ul>
+                        `,
                         carImage: "motorsport_baja_rally.png"
                     }
                 };
@@ -1784,9 +1836,9 @@
 
                         document.getElementById('seriesModalTitle').textContent = data.title || "";
                         document.getElementById('seriesModalContent').innerHTML = `
-                        <img src="${data.carImage}" alt="${data.title}" style="aspect-ratio: 3 / 2;" class="w-full max-w-[768px] object-cover rounded-xl mx-auto" />
-                        <div class="text-md leading-relaxed mt-4">${data.content}</div>
-                        `;
+                                        <img src="${data.carImage}" alt="${data.title}" style="aspect-ratio: 3 / 2;" class="w-full max-w-[768px] object-cover rounded-xl mx-auto" />
+                                        <div class="text-md leading-relaxed mt-4">${data.content}</div>
+                                        `;
 
 
                         const modal = document.getElementById('seriesModal');
@@ -1801,6 +1853,10 @@
                     setTimeout(() => modal.classList.add('hidden'), 300);
                 };
             }));
+
+        function rickRoll() {
+            window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0", "_blank");
+        }
     </script>
 
 </body>
